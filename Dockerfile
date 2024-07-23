@@ -1,19 +1,12 @@
 # Use the official Ubuntu base image
-FROM ubuntu:latest
+FROM ubuntu:22.04
+RUN apt-get update 
+RUN    apt-get upgrade -y 
+RUN      apt autoremove -y
+RUN apt-get install --install-recommends linux-generic-hwe-22.04 -y
 
-# Update package lists and install required packages
-RUN apt-get update && apt-get install -y \
-    usbip \
-    linux-tools-$(uname -r) \
-    && apt-get clean
 
-# Load necessary kernel modules
-RUN modprobe usbip-core \
-    && modprobe usbip-host \
-    && modprobe vhci-hcd
-
-# Expose the usbipd daemon port
-EXPOSE 3240
-
-# Start the usbipd daemon
-CMD ["usbipd", "-D"]
+RUN apt-get install linux-tools-$(uname -r) hwdata -y
+RUN apt-get install linux-tools-generic -y
+RUN apt install kmod -y
+RUN apt install
